@@ -1,13 +1,7 @@
-import { Draw } from "./Draw";
-import { Keyboard } from "./Keyboard";
+import { Hangman } from "./Hangman";
 
 function App() {
-  return (
-    <div className="flex justify-around">
-      <Keyboard />
-      <Draw />
-    </div>
-  );
+  return <Hangman />;
 }
 
 export default App;
