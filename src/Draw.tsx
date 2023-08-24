@@ -7,6 +7,9 @@ interface IDraw {
 
 export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
   const [guessedLetters, setGuessedLetters] = useState<number[]>([]);
+  const [attempts, setAttempts] = useState(0);
+  const [newGame, setNewGame] = useState(true);
+  const [guessed, setGuessed] = useState(1);
   const lettersToGuess = word.split("");
 
   const [invisibleLetters, setInvisibleLetters] = useState(
@@ -16,20 +19,26 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
   );
 
   console.log({
-    guessedLetters,
+    // guessedLetters,
     // guessedLetter,
-    lettersToGuess,
+    // lettersToGuess,
     // invisibleLetters,
+    // word,
   });
 
   useEffect(() => {
     const newLetters: number[] = [];
     lettersToGuess.map((letter, index) => {
-      if (letter === guessedLetter) {
+      if (attempts > 6 || letter === guessedLetter) {
         newLetters.push(index);
+        setGuessed((prev) => prev + 1);
+      }
+      if (word.length === guessed) {
+        setNewGame(false);
       }
     });
     setGuessedLetters(newLetters);
+    setAttempts((prev) => prev + 1);
   }, [guessedLetter]);
 
   useEffect(() => {
@@ -47,6 +56,16 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
 
     setInvisibleLetters(newInvisibleLetters);
   }, [guessedLetters]);
+
+  const onNewGame = () => {
+    setAttempts(0);
+    setNewGame(true);
+    setInvisibleLetters(
+      Array.from({ length: lettersToGuess.length }, (_, i) => {
+        return { index: i, letter: "" };
+      })
+    );
+  };
 
   const hangmanParts = [
     {
@@ -83,20 +102,26 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
 
   return (
     <div className="flex flex-col items-center w-1/2">
-      <div className="relative flex flex-col items-center mr-20">
-        <div className="w-40 h-2 bg-black ml-[152px]"></div>
-        <div className="w-2 h-80 bg-black"></div>
-        <div className="w-40 h-2 bg-black"></div>
-        <div className="w-2 h-14 bg-black absolute right-0"></div>
+      {newGame ? (
+        <div className="relative flex flex-col items-center mr-20">
+          <div className="w-40 h-2 bg-black ml-[152px]"></div>
+          <div className="w-2 h-80 bg-black"></div>
+          <div className="w-40 h-2 bg-black"></div>
+          <div className="w-2 h-14 bg-black absolute right-0"></div>
 
-        {hangmanParts.map((part, index) => (
-          <div className="opacity-0" key={index}>
-            {part.children}
-          </div>
-        ))}
-      </div>
-
-      <WordToGuess lettersToGuess={invisibleLetters} />
+          {hangmanParts.map((part, index) => (
+            <div className="opacity-0" key={index}>
+              {part.children}
+            </div>
+          ))}
+          <WordToGuess lettersToGuess={invisibleLetters} />
+        </div>
+      ) : (
+        <div>
+          <p>You won!</p>
+          <button onClick={onNewGame}>New Game</button>
+        </div>
+      )}
     </div>
   );
 };
