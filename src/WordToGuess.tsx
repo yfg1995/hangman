@@ -6,14 +6,14 @@ interface ILettersToGuess {
 
 export const WordToGuess: FC<ILettersToGuess> = ({ lettersToGuess }) => {
   return (
-    <div className="mt-10">
+    <div className="mt-10 flex">
       {lettersToGuess.map((letter: string, index: number) => (
-        <span
-          className="border-b-4 mx-1 border-black text-5xl uppercase font-bold"
+        <div
+          className="border-b-4 mx-1 p-1 border-black text-5xl uppercase font-bold"
           key={index}
         >
-          <span className="px-1">{letter}</span>
-        </span>
+          <div className="flex justify-center w-10">{letter}</div>
+        </div>
       ))}
     </div>
   );

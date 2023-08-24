@@ -29,10 +29,10 @@ export const Keyboard = () => {
   ];
 
   return (
-    <div className="flex flex-wrap w-1/2 gap-4">
+    <div className="flex w-1/2 gap-4 flex-wrap">
       {letters.map((letter: string) => (
         <div
-          className="flex justify-center p-4 font-bold border border-black cursor-pointer text-2xl w-20 transition-all hover:bg-slate-500 hover:text-white"
+          className="flex justify-center items-center font-bold border border-black cursor-pointer text-2xl w-20 h-20 transition-all hover:bg-slate-500 hover:text-white"
           key={letter}
         >
           {letter}
