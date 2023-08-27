@@ -71,11 +71,12 @@ export const Draw: FC<IDraw> = ({
           ))}
         </div>
       ) : (
-        <div>
-          <p className="text-center text-3xl">
+        <div className="text-center">
+          <p className="text-3xl">
             {guessed === lettersToGuess.length ? "You Won!" : ""}
             {missed === 6 ? "You Lost!" : ""}
           </p>
+
           <button
             className="px-4 py-2 border rounded-lg mt-4 text-lg"
             onClick={onNewGame}
@@ -84,10 +85,11 @@ export const Draw: FC<IDraw> = ({
           </button>
         </div>
       )}
-      <WordToGuess
-        className={!newGame ? "hidden" : ""}
-        lettersToGuess={invisibleLetters}
-      />
+      {missed === 6 ? (
+        <p className="mt-4 text-4xl uppercase">{lettersToGuess}</p>
+      ) : (
+        <WordToGuess lettersToGuess={invisibleLetters} />
+      )}
     </div>
   );
 };

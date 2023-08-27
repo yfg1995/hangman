@@ -7,7 +7,6 @@ interface IKeyboard {
 
 export const Keyboard: FC<IKeyboard> = ({ onClickedKey, newGame }) => {
   const [clickedKeys, setClickedKeys] = useState<string[]>([]);
-  console.log("keyboard", newGame);
 
   const letters = "abcdefghijklmnopqrstuvwxyz".split("");
 
