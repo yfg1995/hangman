@@ -68,6 +68,21 @@ export const Hangman = () => {
     setInvisibleLetters(newInvisibleLetters);
   }, [guessedLetters]);
 
+  // useEffect(() => {
+  //   const newInvisibleLetters = [...invisibleLetters];
+  //   invisibleLetters.map((letter) => {
+  //     guessedLetters.map((gLetter) => {
+  //       if (letter.index === gLetter) {
+  //         newInvisibleLetters[gLetter] = {
+  //           index: gLetter,
+  //           letter: guessedLetter,
+  //         };
+  //       }
+  //     });
+  //   });
+  //   setInvisibleLetters(newInvisibleLetters);
+  // }, [guessedLetters]);
+
   return (
     <div className="flex">
       <Keyboard newGame={newGame} onClickedKey={onPickedLetter} />

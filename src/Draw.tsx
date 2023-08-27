@@ -1,5 +1,5 @@
 import { WordToGuess } from "./WordToGuess";
-import { FC, useState, useEffect } from "react";
+import { FC } from "react";
 interface IDraw {
   word: string;
   guessedLetter: string;
@@ -13,9 +13,6 @@ interface IDraw {
 }
 
 export const Draw: FC<IDraw> = ({
-  word,
-  guessedLetter = "",
-  guessedLetters,
   lettersToGuess,
   invisibleLetters,
   missed,
@@ -23,86 +20,8 @@ export const Draw: FC<IDraw> = ({
   newGame,
   onNewGameHandler,
 }) => {
-  // const [guessedLetters, setGuessedLetters] = useState<number[]>([]);
-  // const [missed, setMissed] = useState(0);
-  // const [guessed, setGuessed] = useState(0);
-  // const [newGame, setNewGame] = useState(true);
-  // const [lettersToGuess, setLettersToGuess] = useState(word.split(""));
-
-  // const [invisibleLetters, setInvisibleLetters] = useState(
-  //   Array.from({ length: lettersToGuess.length }, (_, i) => {
-  //     return { index: i, letter: "" };
-  //   })
-  // );
-
-  // useEffect(() => {
-  //   const newLetters: number[] = [];
-  //   lettersToGuess.map((letter, index) => {
-  //     if (letter === guessedLetter) {
-  //       newLetters.push(index);
-  //       setGuessed((prev) => prev + 1);
-  //     }
-  //   });
-
-  //   if (guessedLetter && lettersToGuess.indexOf(guessedLetter) === -1) {
-  //     setMissed((prev) => prev + 1);
-  //   }
-  //   setGuessedLetters(newLetters);
-  // }, [guessedLetter]);
-
-  // useEffect(() => {
-  //   if (missed === 6 || guessed === lettersToGuess.length) {
-  //     setNewGame(false);
-  //   }
-  // }, [guessed, missed]);
-
-  console.log(
-    "guessed: ",
-    guessed,
-    "missed: ",
-    missed,
-    "lettersToGuess",
-    lettersToGuess.length
-  );
-
-  // useEffect(() => {
-  //   const newInvisibleLetters = invisibleLetters.map((letter) => {
-  //     return guessedLetters.includes(letter.index)
-  //       ? {
-  //           index: letter.index,
-  //           letter: guessedLetter,
-  //         }
-  //       : letter;
-  //   });
-
-  //   setInvisibleLetters(newInvisibleLetters);
-  // }, [guessedLetters]);
-
-  // useEffect(() => {
-  //   const newInvisibleLetters = [...invisibleLetters];
-  //   invisibleLetters.map((letter) => {
-  //     guessedLetters.map((gLetter) => {
-  //       if (letter.index === gLetter) {
-  //         newInvisibleLetters[gLetter] = {
-  //           index: gLetter,
-  //           letter: guessedLetter,
-  //         };
-  //       }
-  //     });
-  //   });
-  //   setInvisibleLetters(newInvisibleLetters);
-  // }, [guessedLetters]);
-
   const onNewGame = () => {
     onNewGameHandler();
-    // setGuessed(0);
-    // setMissed(0);
-    // setInvisibleLetters(
-    //   Array.from({ length: lettersToGuess.length }, (_, i) => {
-    //     return { index: i, letter: "" };
-    //   })
-    // );
-    // setLettersToGuess(word.split(""));
   };
 
   const hangmanParts = [
