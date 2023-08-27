@@ -7,10 +7,10 @@ interface IDraw {
 
 export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
   const [guessedLetters, setGuessedLetters] = useState<number[]>([]);
-  const [attempts, setAttempts] = useState(0);
+  const [missed, setMissed] = useState(0);
+  const [guessed, setGuessed] = useState(0);
   const [newGame, setNewGame] = useState(true);
-  const [guessed, setGuessed] = useState(1);
-  const lettersToGuess = word.split("");
+  const [lettersToGuess, setLettersToGuess] = useState(word.split(""));
 
   const [invisibleLetters, setInvisibleLetters] = useState(
     Array.from({ length: lettersToGuess.length }, (_, i) => {
@@ -18,53 +18,74 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
     })
   );
 
-  console.log({
-    // guessedLetters,
-    // guessedLetter,
-    // lettersToGuess,
-    // invisibleLetters,
-    // word,
-  });
-
   useEffect(() => {
     const newLetters: number[] = [];
     lettersToGuess.map((letter, index) => {
-      if (attempts > 6 || letter === guessedLetter) {
+      if (letter === guessedLetter) {
         newLetters.push(index);
         setGuessed((prev) => prev + 1);
       }
-      if (word.length === guessed) {
-        setNewGame(false);
-      }
     });
+
+    if (guessedLetter && lettersToGuess.indexOf(guessedLetter) === -1) {
+      setMissed((prev) => prev + 1);
+    }
     setGuessedLetters(newLetters);
-    setAttempts((prev) => prev + 1);
   }, [guessedLetter]);
 
   useEffect(() => {
-    const newInvisibleLetters = [...invisibleLetters];
-    invisibleLetters.map((letter) => {
-      guessedLetters.map((gLetter) => {
-        if (letter.index === gLetter) {
-          newInvisibleLetters[gLetter] = {
-            index: gLetter,
+    if (missed === 6 || guessed === lettersToGuess.length) {
+      setNewGame(false);
+    }
+  }, [guessed, missed]);
+
+  console.log(
+    "guessed: ",
+    guessed,
+    "missed: ",
+    missed,
+    "lettersToGuess",
+    lettersToGuess.length
+  );
+
+  useEffect(() => {
+    const newInvisibleLetters = invisibleLetters.map((letter) => {
+      return guessedLetters.includes(letter.index)
+        ? {
+            index: letter.index,
             letter: guessedLetter,
-          };
-        }
-      });
+          }
+        : letter;
     });
 
     setInvisibleLetters(newInvisibleLetters);
   }, [guessedLetters]);
 
+  // useEffect(() => {
+  //   const newInvisibleLetters = [...invisibleLetters];
+  //   invisibleLetters.map((letter) => {
+  //     guessedLetters.map((gLetter) => {
+  //       if (letter.index === gLetter) {
+  //         newInvisibleLetters[gLetter] = {
+  //           index: gLetter,
+  //           letter: guessedLetter,
+  //         };
+  //       }
+  //     });
+  //   });
+  //   setInvisibleLetters(newInvisibleLetters);
+  // }, [guessedLetters]);
+
   const onNewGame = () => {
-    setAttempts(0);
     setNewGame(true);
+    setGuessed(0);
+    setMissed(0);
     setInvisibleLetters(
       Array.from({ length: lettersToGuess.length }, (_, i) => {
         return { index: i, letter: "" };
       })
     );
+    setLettersToGuess(word.split(""));
   };
 
   const hangmanParts = [
@@ -109,19 +130,29 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
           <div className="w-40 h-2 bg-black"></div>
           <div className="w-2 h-14 bg-black absolute right-0"></div>
 
-          {hangmanParts.map((part, index) => (
-            <div className="opacity-0" key={index}>
-              {part.children}
-            </div>
+          {hangmanParts.slice(0, missed).map((part, index) => (
+            <div key={index}>{part.children}</div>
           ))}
-          <WordToGuess lettersToGuess={invisibleLetters} />
         </div>
       ) : (
         <div>
-          <p>You won!</p>
-          <button onClick={onNewGame}>New Game</button>
+          {/* <p className="text-center text-3xl">
+            {guessed === lettersToGuess.length || missed === 5
+              ? "You lost!"
+              : "You won!"}
+          </p> */}
+          <button
+            className="px-4 py-2 border rounded-lg mt-4 text-lg"
+            onClick={onNewGame}
+          >
+            New Game
+          </button>
         </div>
       )}
+      <WordToGuess
+        className={!newGame ? "hidden" : ""}
+        lettersToGuess={invisibleLetters}
+      />
     </div>
   );
 };
