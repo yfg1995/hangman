@@ -5,13 +5,16 @@ interface IKeyboard {
 }
 
 export const Keyboard: FC<IKeyboard> = ({ onClickedKey }) => {
+  const [key, setKey] = useState("");
+  const [clickedKeys, setClickedKeys] = useState<string[]>([]);
+
   const letters = "abcdefghijklmnopqrstuvwxyz".split("");
 
-  const [key, setKey] = useState("");
-
   const handleKey = (keyValue: string) => {
-    setKey(keyValue);
-    onClickedKey?.(keyValue);
+    if (!clickedKeys.includes(keyValue)) {
+      setClickedKeys((prevClickedKeys) => [...prevClickedKeys, keyValue]);
+      onClickedKey?.(keyValue);
+    }
   };
 
   return (
@@ -19,7 +22,15 @@ export const Keyboard: FC<IKeyboard> = ({ onClickedKey }) => {
       {letters.map((letter: string) => (
         <div
           onClick={() => handleKey(letter)}
-          className="flex justify-center items-center uppercase font-bold border border-black cursor-pointer text-2xl w-20 h-20 transition-all hover:bg-slate-500 hover:text-white"
+          className={`${
+            clickedKeys.includes(letter)
+              ? "hover:text-black hover:bg-white border-red-500"
+              : ""
+          } ${
+            clickedKeys.includes(letter)
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
+          } flex justify-center items-center uppercase font-bold border-2 border-black text-2xl w-20 h-20 transition-all hover:bg-slate-500 hover:text-white`}
           key={letter}
         >
           {letter}
