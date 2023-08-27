@@ -3,41 +3,58 @@ import { FC, useState, useEffect } from "react";
 interface IDraw {
   word: string;
   guessedLetter: string;
+  newGame: boolean;
+  missed: number;
+  guessed: number;
+  guessedLetters: number[];
+  lettersToGuess: string[];
+  invisibleLetters: { index: number; letter: string }[];
+  onNewGameHandler: () => void;
 }
 
-export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
-  const [guessedLetters, setGuessedLetters] = useState<number[]>([]);
-  const [missed, setMissed] = useState(0);
-  const [guessed, setGuessed] = useState(0);
-  const [newGame, setNewGame] = useState(true);
-  const [lettersToGuess, setLettersToGuess] = useState(word.split(""));
+export const Draw: FC<IDraw> = ({
+  word,
+  guessedLetter = "",
+  guessedLetters,
+  lettersToGuess,
+  invisibleLetters,
+  missed,
+  guessed,
+  newGame,
+  onNewGameHandler,
+}) => {
+  // const [guessedLetters, setGuessedLetters] = useState<number[]>([]);
+  // const [missed, setMissed] = useState(0);
+  // const [guessed, setGuessed] = useState(0);
+  // const [newGame, setNewGame] = useState(true);
+  // const [lettersToGuess, setLettersToGuess] = useState(word.split(""));
 
-  const [invisibleLetters, setInvisibleLetters] = useState(
-    Array.from({ length: lettersToGuess.length }, (_, i) => {
-      return { index: i, letter: "" };
-    })
-  );
+  // const [invisibleLetters, setInvisibleLetters] = useState(
+  //   Array.from({ length: lettersToGuess.length }, (_, i) => {
+  //     return { index: i, letter: "" };
+  //   })
+  // );
 
-  useEffect(() => {
-    const newLetters: number[] = [];
-    lettersToGuess.map((letter, index) => {
-      if (letter === guessedLetter) {
-        newLetters.push(index);
-        setGuessed((prev) => prev + 1);
-      }
-    });
+  // useEffect(() => {
+  //   const newLetters: number[] = [];
+  //   lettersToGuess.map((letter, index) => {
+  //     if (letter === guessedLetter) {
+  //       newLetters.push(index);
+  //       setGuessed((prev) => prev + 1);
+  //     }
+  //   });
 
-    if (guessedLetter && lettersToGuess.indexOf(guessedLetter) === -1) {
-      setMissed((prev) => prev + 1);
-    }
-    setGuessedLetters(newLetters);
-  }, [guessedLetter]);
+  //   if (guessedLetter && lettersToGuess.indexOf(guessedLetter) === -1) {
+  //     setMissed((prev) => prev + 1);
+  //   }
+  //   setGuessedLetters(newLetters);
+  // }, [guessedLetter]);
 
-  useEffect(() => {
-    if (missed === 6 || guessed === lettersToGuess.length) {
-      setNewGame(false);
-    }
-  }, [guessed, missed]);
+  // useEffect(() => {
+  //   if (missed === 6 || guessed === lettersToGuess.length) {
+  //     setNewGame(false);
+  //   }
+  // }, [guessed, missed]);
 
   console.log(
     "guessed: ",
@@ -48,18 +65,18 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
     lettersToGuess.length
   );
 
-  useEffect(() => {
-    const newInvisibleLetters = invisibleLetters.map((letter) => {
-      return guessedLetters.includes(letter.index)
-        ? {
-            index: letter.index,
-            letter: guessedLetter,
-          }
-        : letter;
-    });
+  // useEffect(() => {
+  //   const newInvisibleLetters = invisibleLetters.map((letter) => {
+  //     return guessedLetters.includes(letter.index)
+  //       ? {
+  //           index: letter.index,
+  //           letter: guessedLetter,
+  //         }
+  //       : letter;
+  //   });
 
-    setInvisibleLetters(newInvisibleLetters);
-  }, [guessedLetters]);
+  //   setInvisibleLetters(newInvisibleLetters);
+  // }, [guessedLetters]);
 
   // useEffect(() => {
   //   const newInvisibleLetters = [...invisibleLetters];
@@ -77,15 +94,15 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
   // }, [guessedLetters]);
 
   const onNewGame = () => {
-    setNewGame(true);
-    setGuessed(0);
-    setMissed(0);
-    setInvisibleLetters(
-      Array.from({ length: lettersToGuess.length }, (_, i) => {
-        return { index: i, letter: "" };
-      })
-    );
-    setLettersToGuess(word.split(""));
+    onNewGameHandler();
+    // setGuessed(0);
+    // setMissed(0);
+    // setInvisibleLetters(
+    //   Array.from({ length: lettersToGuess.length }, (_, i) => {
+    //     return { index: i, letter: "" };
+    //   })
+    // );
+    // setLettersToGuess(word.split(""));
   };
 
   const hangmanParts = [
@@ -136,11 +153,10 @@ export const Draw: FC<IDraw> = ({ word, guessedLetter = "" }) => {
         </div>
       ) : (
         <div>
-          {/* <p className="text-center text-3xl">
-            {guessed === lettersToGuess.length || missed === 5
-              ? "You lost!"
-              : "You won!"}
-          </p> */}
+          <p className="text-center text-3xl">
+            {guessed === lettersToGuess.length ? "You Won!" : ""}
+            {missed === 6 ? "You Lost!" : ""}
+          </p>
           <button
             className="px-4 py-2 border rounded-lg mt-4 text-lg"
             onClick={onNewGame}

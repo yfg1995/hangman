@@ -11,7 +11,7 @@ export const WordToGuess: FC<ILettersToGuess> = ({
   className,
 }) => {
   return (
-    <div className={classNames("flex", className)}>
+    <div className={classNames("flex mt-4", className)}>
       {lettersToGuess.map((item, index) => (
         <div
           className="border-b-4 mx-1.5 p-1 h-12 border-black text-4xl uppercase font-bold"

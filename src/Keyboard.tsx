@@ -1,11 +1,13 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 interface IKeyboard {
+  newGame: boolean;
   onClickedKey?: (keyValue: string) => void;
 }
 
-export const Keyboard: FC<IKeyboard> = ({ onClickedKey }) => {
+export const Keyboard: FC<IKeyboard> = ({ onClickedKey, newGame }) => {
   const [clickedKeys, setClickedKeys] = useState<string[]>([]);
+  console.log("keyboard", newGame);
 
   const letters = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -16,18 +18,22 @@ export const Keyboard: FC<IKeyboard> = ({ onClickedKey }) => {
     }
   };
 
+  useEffect(() => {
+    if (newGame) {
+      setClickedKeys([]);
+    }
+  }, [newGame]);
+
   return (
-    <div className="flex w-1/2 gap-4 flex-wrap">
+    <div className="flex w-1/2 gap-2 flex-wrap">
       {letters.map((letter: string) => (
         <div
           onClick={() => handleKey(letter)}
           className={`${
             clickedKeys.includes(letter)
-              ? "hover:text-black hover:bg-white border-red-500 text-red-500"
-              : ""
-          } ${
-            clickedKeys.includes(letter) ? "cursor-default" : "cursor-pointer"
-          } flex justify-center items-center uppercase font-bold border-2 border-black text-2xl w-20 h-20 transition-all hover:bg-slate-500 hover:text-white`}
+              ? "cursor-default border-red-500 text-red-500"
+              : "cursor-pointer hover:bg-red-500 hover:text-white"
+          } flex justify-center items-center uppercase font-bold border-2 mx-1 border-black text-2xl w-16 h-16 transition-all `}
           key={letter}
         >
           {letter}
