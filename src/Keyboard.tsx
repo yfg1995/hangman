@@ -23,12 +23,10 @@ export const Keyboard: FC<IKeyboard> = ({ onClickedKey }) => {
           onClick={() => handleKey(letter)}
           className={`${
             clickedKeys.includes(letter)
-              ? "hover:text-black hover:bg-white border-red-500"
+              ? "hover:text-black hover:bg-white border-red-500 text-red-500"
               : ""
           } ${
-            clickedKeys.includes(letter)
-              ? "cursor-not-allowed"
-              : "cursor-pointer"
+            clickedKeys.includes(letter) ? "cursor-default" : "cursor-pointer"
           } flex justify-center items-center uppercase font-bold border-2 border-black text-2xl w-20 h-20 transition-all hover:bg-slate-500 hover:text-white`}
           key={letter}
         >
