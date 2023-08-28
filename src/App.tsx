@@ -1,7 +1,13 @@
-import { Hangman } from "./Hangman";
+// import { Hangman } from "./hangman/Hangman";
+import { Quiz } from "./quiz/Quiz";
 
 function App() {
-  return <Hangman />;
+  return (
+    <>
+      {/* <Hangman /> */}
+      <Quiz />
+    </>
+  );
 }
 
 export default App;

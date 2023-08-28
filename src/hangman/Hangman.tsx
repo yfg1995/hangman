@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Draw } from "./Draw";
 import { Keyboard } from "./Keyboard";
-import { words } from "./data/data";
+import { words } from "../data/data";
 
 export const Hangman = () => {
   const [pickedLetter, setPickedLetter] = useState("");
