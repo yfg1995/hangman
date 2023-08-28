@@ -22,6 +22,8 @@ export const Quiz: FC = () => {
     }
   };
 
+  const correctPercentage = (guessed * 100) / QA.length;
+
   return (
     <div className="w-[600px] border rounded-lg border-slate-400 px-4 py-8 text-center">
       {newGame ? (
@@ -43,10 +45,13 @@ export const Quiz: FC = () => {
           </div>
         </>
       ) : (
-        <>
-          <div>{`Correct: ${guessed}`}</div>
-          <div>{`Incorrect: ${QA.length - guessed}`}</div>
-        </>
+        <div>
+          <p className="text-red-500 text-4xl font-medium mb-4">
+            {correctPercentage}%
+          </p>
+          <p>{`Correct: ${guessed}`}</p>
+          <p>{`Incorrect: ${QA.length - guessed}`}</p>
+        </div>
       )}
     </div>
   );
