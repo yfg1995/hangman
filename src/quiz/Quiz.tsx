@@ -22,6 +22,12 @@ export const Quiz: FC = () => {
     }
   };
 
+  const onNewGame = () => {
+    setCurrentQuestionIndex(0);
+    setNewGame(true);
+    setGuessed(0);
+  };
+
   const correctPercentage = (guessed * 100) / QA.length;
 
   return (
@@ -51,6 +57,13 @@ export const Quiz: FC = () => {
           </p>
           <p>{`Correct: ${guessed}`}</p>
           <p>{`Incorrect: ${QA.length - guessed}`}</p>
+
+          <button
+            onClick={onNewGame}
+            className="border rounded-lg border-slate-400 px-8 py-2 mt-4 font-medium transition-all hover:bg-green-500"
+          >
+            New Game
+          </button>
         </div>
       )}
     </div>
