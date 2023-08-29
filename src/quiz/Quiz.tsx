@@ -16,10 +16,11 @@ export const Quiz: FC = () => {
     }
 
     setCurrentQuestionIndex((prev) => prev + 1);
+
+    if (currentQuestionIndex === QA.length - 1) {
+      setNewGame(false);
+    }
   };
-  if (currentQuestionIndex === QA.length - 1) {
-    setNewGame(false);
-  }
 
   const onNewGame = () => {
     setCurrentQuestionIndex(0);
