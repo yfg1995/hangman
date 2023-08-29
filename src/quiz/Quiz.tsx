@@ -51,16 +51,14 @@ export const Quiz: FC = () => {
           </div>
         </>
       ) : (
-        <div>
-          <p className="text-red-500 text-4xl font-medium mb-4">
-            {correctPercentage}%
-          </p>
+        <div className="font-medium">
+          <p className="text-red-500 text-4xl mb-4">{correctPercentage}%</p>
           <p>{`Correct: ${guessed}`}</p>
           <p>{`Incorrect: ${QA.length - guessed}`}</p>
 
           <button
             onClick={onNewGame}
-            className="border rounded-lg border-slate-400 px-8 py-2 mt-4 font-medium transition-all hover:bg-green-500"
+            className="border rounded-lg border-slate-400 px-8 py-1.5 mt-4 text-lg transition-all hover:bg-green-500"
           >
             New Game
           </button>
