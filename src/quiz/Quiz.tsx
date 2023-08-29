@@ -16,11 +16,10 @@ export const Quiz: FC = () => {
     }
 
     setCurrentQuestionIndex((prev) => prev + 1);
-
-    if (currentQuestionIndex === QA.length - 1) {
-      setNewGame(false);
-    }
   };
+  if (currentQuestionIndex === QA.length - 1) {
+    setNewGame(false);
+  }
 
   const onNewGame = () => {
     setCurrentQuestionIndex(0);
@@ -53,12 +52,15 @@ export const Quiz: FC = () => {
       ) : (
         <div className="font-medium">
           <p className="text-red-500 text-4xl mb-4">{correctPercentage}%</p>
-          <p>{`Correct: ${guessed}`}</p>
-          <p>{`Incorrect: ${QA.length - guessed}`}</p>
+
+          <div className="text-lg">
+            <p>{`Correct: ${guessed}`}</p>
+            <p>{`Incorrect: ${QA.length - guessed}`}</p>
+          </div>
 
           <button
             onClick={onNewGame}
-            className="border rounded-lg border-slate-400 px-8 py-1.5 mt-4 text-lg transition-all hover:bg-green-500"
+            className="border rounded-lg border-slate-400 px-8 py-1.5 mt-6 text-lg transition-all hover:bg-green-500"
           >
             New Game
           </button>
